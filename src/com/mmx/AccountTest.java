@@ -11,6 +11,8 @@ public class AccountTest {
         Random rd = new Random();
 	    // Experiment 1: Without constructor
         System.out.println("Experiment 1: Without constructor");
+
+        System.out.println("Initialization");
         BankAccount[] accounts = new BankAccount[5];
         for(int i = 0 ; i < accounts.length ; i++) {
             accounts[i] = new BankAccount();
@@ -18,15 +20,11 @@ public class AccountTest {
                     makeAccountNumber(names[i]), accountTypes[i & 1],
                     (float)Math.pow(10, (int)(rd.nextFloat() * 10)) * rd.nextFloat());
 
-            System.out.printf(
-                "BankAccount #%d: { name: %s, accNumber: %d, accType: %s, balance: $%.2f }%n",
-                i + 1,
-                accounts[i].getDeveloperName(),
-                accounts[i].getAccountNumber(),
-                accounts[i].getAccountType(),
-                accounts[i].getBalance()
-            );
+            printAccount(accounts[i], i);
         }
+
+        depositAndWithdrawDemonstration(accounts);
+
         // [End of Experiment 1]
 
         // Experiment 2: With constructor
@@ -38,16 +36,37 @@ public class AccountTest {
                     (float)Math.pow(10, (int)(rd.nextFloat() * 10)) * rd.nextFloat()
             );
 
-            System.out.printf(
-                    "BankAccount #%d: { name: %s, accNumber: %d, accType: %s, balance: $%.2f }%n",
-                    i + 1,
-                    accounts[i].getDeveloperName(),
-                    accounts[i].getAccountNumber(),
-                    accounts[i].getAccountType(),
-                    accounts[i].getBalance()
-            );
+            printAccount(accounts[i], i);
         }
+
+        depositAndWithdrawDemonstration(accounts);
         // [End of Experiment 2]
+    }
+
+    private static void depositAndWithdrawDemonstration(BankAccount[] accounts) {
+        Random rd = new Random();
+
+        System.out.println();
+        System.out.println("Before and after depositing");
+        for (BankAccount account : accounts) {
+            System.out.println("Before depositing");
+            System.out.println(account);
+            account.depositBalance((float) Math.pow(10, ((int) ((rd.nextFloat() * 10)) % 5) + 1) * rd.nextFloat());
+            System.out.println("After depositing");
+            System.out.println(account);
+            System.out.println();
+        }
+
+        System.out.println();
+        System.out.println("Before and after a withdrawal");
+        for (BankAccount account : accounts) {
+            System.out.println("Before withdrawal");
+            System.out.println(account);
+            account.withdrawFromBalance((float) Math.pow(10, (int) (rd.nextFloat() * 10)) * rd.nextFloat());
+            System.out.println("After withdrawal");
+            System.out.println(account);
+            System.out.println();
+        }
     }
 
     private static Long makeAccountNumber(String name) {
@@ -57,5 +76,16 @@ public class AccountTest {
             ans *= 10;
         }
         return ans;
+    }
+
+    private static void printAccount(BankAccount account, int index) {
+        System.out.printf(
+                "BankAccount #%d: { name: %s, accNumber: %d, accType: %s, balance: $%.2f }%n",
+                index + 1,
+                account.getDeveloperName(),
+                account.getAccountNumber(),
+                account.getAccountType(),
+                account.getBalance()
+        );
     }
 }
