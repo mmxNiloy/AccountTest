@@ -5,35 +5,40 @@ import java.util.Random;
 public class AccountTest {
 
     public static void main(String[] args) {
-        // Hardcoded names
-        String[] names = {"Test A", "Test B", "Test C", "Test D", "Test E"};
+        // Hardcoded values
+        String[] names = {"A", "B", "C", "D", "E"};
+        float[] vals = {1000, 400, 3141, 1234, 42069};
+        float[] wds = {700, 300, 900, 400, 690};
 
-        // [Experiment 1]
+        // [Experiment 1: Without using a parameterized constructor]
+        System.out.println("Experiment 1: Without using a parameterized constructor\n");
         BankAccount[] accounts = new BankAccount[5];
         for(int i = 0 ; i < 5 ; i++) {
+            System.out.println();
             accounts[i] = new BankAccount();
             accounts[i].setAccountInformation(
-                    names[i], names[i], names[i],
-                    (float)(i * (i + 1) * (i + 2)) / 2.0f
+                    "Test " + names[i], "", "",
+                    vals[i]
             );
 
             accounts[i].printNameAndBalance();
-            accounts[i].deposit(3 * (i + 1));
-            accounts[i].withdraw(5 * i);
-            accounts[i].printNameAndBalance();
+            accounts[i].deposit(vals[i] - wds[i]);
+            accounts[i].withdraw(wds[i]);
         }
 
-        // [Experiment 2]
+
+        // [Experiment 2: Using a parameterized constructor]
+        System.out.println("\n\nExperiment 2: Using a parameterized constructor\n");
         for(int i = 0 ; i < 5 ; i++) {
+            System.out.println();
             accounts[i] = new BankAccount(
-                    names[i], names[i], names[i],
-                    (float)(4 + 3 * i) / (float) (5 - i)
+                    "Test " + names[i], "", "",
+                    vals[i]
             );
 
             accounts[i].printNameAndBalance();
-            accounts[i].deposit(3 * (i + 1));
-            accounts[i].withdraw(5 * i);
-            accounts[i].printNameAndBalance();
+            accounts[i].deposit(vals[i] - wds[i]);
+            accounts[i].withdraw(wds[i]);
         }
     }
 }

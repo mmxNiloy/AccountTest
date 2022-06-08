@@ -25,15 +25,35 @@ public class BankAccount {
     }
 
     public void deposit(float amount) {
+        if(amount < 500.0 || amount > 1e6) {
+            System.out.println(
+                "The amount is " +
+                (amount < 500.0 ? "too low" : "too much") +
+                " to deposit!"
+            );
+            return;
+        }
+
         balance += amount;
+        System.out.printf("Deposit successful.\nCurrent balance $ %.2f\n", balance);
     }
 
     public void withdraw(float amount) {
-        balance = Math.max(0.0f, balance - amount);
+        if(amount < 500.0 || amount > balance) {
+            System.out.println(
+                "The amount is " +
+                (amount > balance ? "too much" : "too low") +
+                " to withdraw!"
+            );
+            return;
+        }
+
+        balance -= amount;
+        System.out.printf("Withdraw successful.\nCurrent balance $ %.2f\n", balance);
     }
 
     public void printNameAndBalance() {
-        System.out.printf("Name = %s, Balance = %.2f\n", developerName, balance);
+        System.out.printf("Name = %s\nBalance = %.2f\n", developerName, balance);
     }
 
     // Data fields
