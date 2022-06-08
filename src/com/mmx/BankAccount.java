@@ -2,82 +2,63 @@ package com.mmx;
 
 public class BankAccount {
     // Constructors
-
-    public BankAccount(String developerName, Long accountNumber,
-                       String accountType, Float balance) {
-        this.developerName = developerName;
-        this.accountNumber = accountNumber;
-        this.accountType = accountType;
-        this.balance = balance;
-    }
-
-    public BankAccount() {
-
-    }
-
-    // Getters and setters
-
-    public String getDeveloperName() {
-        return developerName;
-    }
-
-    public void setDeveloperName(String developerName) {
-        this.developerName = developerName;
-    }
-
-    public Long getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(Long accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public Float getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Float balance) {
-        this.balance = balance;
+    BankAccount() {}
+    BankAccount(String developerName,
+                String accountNumber,
+                String accountType,
+                float balance) {
+        setAccountInformation(
+                developerName, accountNumber,
+                accountType, balance
+        );
     }
 
     // Methods
-
-    public void initializeAccount(String developerName, Long accountNumber,
-                                  String accountType, Float balance) {
+    public void setAccountInformation(String developerName,
+                                      String accountNumber,
+                                      String accountType,
+                                      float balance) {
         this.developerName = developerName;
         this.accountNumber = accountNumber;
         this.accountType = accountType;
         this.balance = balance;
     }
 
-    public void depositBalance(Float amount) {
-        balance = balance + amount;
+    public void deposit(float amount) {
+        if(amount < 500.0 || amount > 1e6) {
+            System.out.println(
+                "The amount is " +
+                (amount < 500.0 ? "too low" : "too much") +
+                " to deposit!"
+            );
+            return;
+        }
+
+        balance += amount;
+        System.out.printf("Deposit successful.\nCurrent balance $ %.2f\n", balance);
     }
 
-    public void withdrawFromBalance(Float amount) {
-        // You cannot withdraw more than your current balance
-        balance = Math.max(0, balance - amount);
+    public void withdraw(float amount) {
+        if(amount < 500.0 || amount > balance) {
+            System.out.println(
+                "The amount is " +
+                (amount > balance ? "too much" : "too low") +
+                " to withdraw!"
+            );
+            return;
+        }
+
+        balance -= amount;
+        System.out.printf("Withdraw successful.\nCurrent balance $ %.2f\n", balance);
     }
 
-    @Override
-    public String toString() {
-        return String.format("BankAccount: { name: %s, balance: $%.2f }",
-                developerName, balance);
+    public void printNameAndBalance() {
+        System.out.printf("Name = %s\nBalance = %.2f\n", developerName, balance);
     }
 
     // Data fields
-
     private String developerName;
-    private Long accountNumber;
+    private String accountNumber;
     private String accountType;
-    private Float balance;
+    private float balance;
 }
